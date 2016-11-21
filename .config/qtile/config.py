@@ -97,7 +97,7 @@ keys = [
     Key([mod], "r", lazy.spawncmd()),
 
     # Audio Volume Keys
-    Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
+    Key([], "XF86AudioMute", lazy.spawn("amixer -q -D pulse sset Master toggle")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -c 0 sset Master 1- unmute")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -c 0 sset Master 1+ unmute")),
 
