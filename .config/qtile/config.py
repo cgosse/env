@@ -85,8 +85,11 @@ keys = [
     ),
     Key([mod], "Return", lazy.spawn("gnome-terminal")),
 
+    # TODO cycle through screens
+    #Key([mod], "Tab", lazy.
+
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout()),
+    Key([mod, "shift"], "Tab", lazy.next_layout()),
     Key([mod], "w", lazy.window.kill()),
 
     Key([mod, "control"], "r", lazy.restart()),
@@ -99,12 +102,12 @@ keys = [
     Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -c 0 sset Master 1+ unmute")),
 
     # Touchpad
-    Key([], "XF86TouchpadToggle", lazy.spawn("~/bin/toggleXInput.sh 12")),
+    Key([], "XF86TouchpadToggle", lazy.spawn("toggleTouchpad.sh")),
 
     # find more uch keys wth xbindkey -k
 ]
 
-groups = [Group(i) for i in "asdf"]
+groups = [Group(i) for i in "asdfuiop"]
 
 for i in groups:
     # mod1 + letter of group = switch to group
@@ -120,13 +123,14 @@ for i in groups:
 layouts = [
     layout.Max(),
     layout.MonadTall(ratio = 0.67),
-    layout.Matrix()
+    layout.Matrix(),
+    layout.VerticalTile()
 ]
 
 widget_defaults = dict(
     font='Arial',
     fontsize=13,
-    padding=15,
+    padding=1,
     background='#073642',
     foreground='#586e75'
 )
@@ -139,19 +143,21 @@ screens = [
                 widget.Prompt(),
                 #widget.WindowName(),
                 widget.TaskList(padding=1),
-                #widget.Notify(),
+                widget.Notify(),
                 widget.Systray(),
-                widget.NetGraph(),
                 widget.Volume(),
                 widget.Battery(),
                 widget.Backlight(backlight_name="intel_backlight"),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.YahooWeather(location="Charlottesville, VA"),
+                widget.TextBox('  '),
+                widget.TextBox('cpu'),
                 widget.CPUGraph(),
+                widget.TextBox('mem'),
                 widget.MemoryGraph(),
+                widget.TextBox('net'),
+                widget.NetGraph(),
             ],
-            size=20,
-            opacity=0.7
+            size=22
         ),
     ),
 ]
