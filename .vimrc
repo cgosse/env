@@ -6,6 +6,9 @@ execute pathogen#infect()
 " unknown why this one doesn't work, some suggest set nocp before infecting
 " execute pathogen#helptagso()
 
+" try to fix slow python mode
+let g:pymode_rope_lookup_project = 0
+
 " yank to the system clipboard by default
 set clipboard+=unnamed
 

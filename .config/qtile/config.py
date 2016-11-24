@@ -128,7 +128,8 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font='Arial',
+    #font='Arial',
+    font='HelveticaNeue',
     fontsize=13,
     padding=1,
     background='#073642',
@@ -145,16 +146,18 @@ screens = [
                 widget.TaskList(padding=1),
                 widget.Notify(),
                 widget.Systray(),
+                widget.TextBox(' vol'),
                 widget.Volume(),
+                widget.TextBox(' bat'),
                 widget.Battery(),
+                widget.TextBox(' bk'),
                 widget.Backlight(backlight_name="intel_backlight"),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.TextBox('  '),
-                widget.TextBox('cpu'),
+                widget.TextBox(' cpu'),
                 widget.CPUGraph(),
-                widget.TextBox('mem'),
+                widget.TextBox(' mem'),
                 widget.MemoryGraph(),
-                widget.TextBox('net'),
+                widget.TextBox(' net'),
                 widget.NetGraph(),
             ],
             size=22
@@ -168,7 +171,8 @@ mouse = [
         start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(),
         start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
+    #Click([mod], "Button2", lazy.window.bring_to_front()),
+    Click([mod, "shift"], "Button1", lazy.window.toggle_floating())
 ]
 
 dgroups_key_binder = None
