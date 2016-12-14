@@ -26,16 +26,18 @@
 
 from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.command import lazy
-from libqtile import layout, bar, widget
+from libqtile import layout, bar, widget, hook
+import os
+import subprocess
 
 
 class Commands(object):
     menu = 'dmenu_run -i -b -p "»" -fn "-*-14-*-" -nb "#000" -nf "#fff" -sb "#15181a" -sf "#fff"'
-    browser = 'firefox'
+    browser = 'chromium-browser'
     terminal = 'gnome-terminal'
-    lock = 'xscreensaver-command -lock'
+    lock = 'gnome-screensaver-command --lock'
     skype = 'skype'
-    files = 'nautilus'
+    files = 'thunar'
 
     autostart = [browser, terminal, files]
 
@@ -55,11 +57,11 @@ keys = [
 
     # Move windows up or down in current stack
     Key(
-        [mod, "control"], "k",
+        [mod, "shift"], "k",
         lazy.layout.shuffle_down()
     ),
     Key(
-        [mod, "control"], "j",
+        [mod, "shift"], "j",
         lazy.layout.shuffle_up()
     ),
 
@@ -104,10 +106,13 @@ keys = [
     # Touchpad
     Key([], "XF86TouchpadToggle", lazy.spawn("toggleTouchpad.sh")),
 
+    # Lock Screen, not sure who is starting gnome-screensaver
+    Key([], "XF86Eject", lazy.spawn(Commands.lock))
+
     # find more uch keys wth xbindkey -k
 ]
 
-groups = [Group(i) for i in "asdfuiop"]
+groups = [Group(i) for i in "123456789"]
 
 for i in groups:
     # mod1 + letter of group = switch to group
@@ -128,9 +133,8 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    #font='Arial',
-    font='HelveticaNeue',
-    fontsize=13,
+    font='HelveticaNeueCondensedBold',
+    fontsize=14,
     padding=1,
     background='#073642',
     foreground='#586e75'
@@ -144,7 +148,9 @@ screens = [
                 widget.Prompt(),
                 #widget.WindowName(),
                 widget.TaskList(padding=1),
+                widget.TextBox('  '),
                 widget.Notify(fontsize=10),
+                widget.TextBox('  '),
                 widget.Systray(),
                 widget.TextBox(' vol'),
                 widget.Volume(),
@@ -194,3 +200,27 @@ focus_on_window_activation = "smart"
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+
+#def is_running(process):
+#    s = subprocess.Popen(["ps", "axuw"], stdout=subprocess.PIPE)
+#    for x in s.stdout:
+#        if re.search(process, x):
+#            return True
+#    return False
+#
+#
+#def execute_once(process):
+#    if not is_running(process):
+#        return subprocess.Popen(process.split())
+#
+#
+# start the applications at Qtile startup
+@hook.subscribe.startup_once
+def startupFirst():
+    subprocess.Popen("nm-applet")
+
+
+@hook.subscribe.startup
+def allStart():
+    resPath = os.path.expanduser('xrdb -load ~/.Xresources')
+    subprocess.call(resPath.split())
