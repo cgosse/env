@@ -222,5 +222,5 @@ def startupFirst():
 
 @hook.subscribe.startup
 def allStart():
-    resPath = os.path.expanduser('xrdb -load ~/.Xresources')
+    resPath = os.path.expanduser('xrdb -load .Xresources')
     subprocess.call(resPath.split())
