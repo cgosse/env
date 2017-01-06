@@ -128,6 +128,7 @@ for i in groups:
 layouts = [
     layout.Max(),
     layout.MonadTall(ratio = 0.67),
+    layout.MonadTall(ratio = 0.45),
     layout.Matrix(),
     layout.VerticalTile()
 ]
