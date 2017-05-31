@@ -27,7 +27,7 @@ au BufNewFile,BufRead *.plt set filetype=gnuplot
 
 
 " use :set gfn to find out what to put on this line
-set guifont=Liberation\ Mono\ 11
+set guifont=PT\ Mono\ 14
 "set guifont=Ubuntu\ Mono\ 10
 "hi LineNr guifg=darkgreen
 "hi LineNr guifg=gray guibg=darkgray
@@ -63,7 +63,7 @@ set ai
 " prefer 2 space actual tabs
 "set tabstop=2 softtabstop=0 noexpandtab shiftwidth=2
 " use spaces instead of tab characters
-set tabstop=4 softtabstop=4 expandtab shiftwidth=4 smarttab
+set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab
 
 " turn off compatibility with the old vi
 set nocompatible
