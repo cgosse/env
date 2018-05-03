@@ -1,0 +1,3 @@
+xautolock -time 5 -locker slock -nowlocker slock -detectsleep -corners 000+ -cornerdelay 3 &
+slstatus &
+
