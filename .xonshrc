@@ -1,5 +1,7 @@
 #source-bash "echo loading xonsh foreign shell"
-$PATH =  ["/home/alec/anaconda3/bin", "/usr/lib/jvm/default/bin", "/usr/local/bin"] + $PATH
+$PATH.insert(0, "/home/alec/anaconda3/bin")
+$PATH.insert(0, "/usr/lib/jvm/default/bin")
+$PATH.insert(0, "/usr/local/bin")
 $PROMPT = "{env_name:{} }{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {cwd}{branch_color}{curr_branch: {}}{NO_COLOR} {BOLD_BLUE}↵\n»{NO_COLOR} "
 $JAVA_HOME = "/usr/lib/jvm/default"
 $XONSH_COLOR_STYLE = "native"
@@ -9,4 +11,4 @@ $SPARK_HOME = "/home/alec/src/spark"
 $HADOOP_HOME = "/usr/lib/hadoop"
 $PROJECT_DIRS = '/home/alec/src'
 
-xontrib load apt_tabcomplete bashisms coreutils distributed docker_tabcomplete mpl prompt_ret_code whole_word_jumping vox vox_tabcomplete xo xonda avox click_tabcomplete
+xontrib load bashisms coreutils mpl prompt_ret_code whole_word_jumping click_tabcomplete
