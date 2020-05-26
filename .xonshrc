@@ -1,14 +1,47 @@
-#source-bash "echo loading xonsh foreign shell"
-$PATH.insert(0, "/home/alec/anaconda3/bin")
-$PATH.insert(0, "/usr/lib/jvm/default/bin")
-$PATH.insert(0, "/usr/local/bin")
-$PROMPT = "{env_name:{} }{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {cwd}{branch_color}{curr_branch: {}}{NO_COLOR} {BOLD_BLUE}↵\n»{NO_COLOR} "
-$JAVA_HOME = "/usr/lib/jvm/default"
-$XONSH_COLOR_STYLE = "native"
-$_JAVA_AWT_WM_NONREPARENTING = "1"
-$MAVEN_OPTS = "-Xmx2g -XX:ReservedCodeCacheSize=512m"
-$SPARK_HOME = "/home/alec/src/spark"
-$HADOOP_HOME = "/usr/lib/hadoop"
-$PROJECT_DIRS = '/home/alec/src'
+source-bash "echo loading xonsh foreign shell"
+$BASH_COMPLETIONS.insert(0, '/usr/local/homebrew/etc/profile.d/bash_completion.sh')
 
-xontrib load bashisms coreutils mpl prompt_ret_code whole_word_jumping click_tabcomplete
+# these are commented out since they're in bash profile
+# seems to be worth running a login shell and then xonsh, though we could change that
+$PATH.insert(0, "/bin")
+$PATH.insert(0, "/sbin")
+$PATH.insert(0, "/usr/sbin")
+$PATH.insert(0, "/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin")
+$PATH.insert(0, "/Applications/domino")
+$PATH.insert(0, "/usr/local/bin")
+$PATH.insert(0, "/Users/alec_gosse/anaconda3/bin")
+$PATH.insert(0, "/usr/local/homebrew/bin")
+$PATH.insert(0, "/usr/local/homebrew/opt/python/libexec/bin")
+
+$XONSH_SHOW_TRACEBACK = False
+
+import datetime
+def get_prompt():
+    # using UTC for computer work
+    t = datetime.datetime.utcnow().strftime("%H:%M:%S")
+    return "{GREEN}" + t + "{NO_COLOR}{env_name: {}}{gitstatus: {}} {BLUE} {cwd}\n»{NO_COLOR} "
+$PROMPT = get_prompt
+
+# "native" seems to avoid mucking up tmux, however it's harder to read in solarized
+$XONSH_COLOR_STYLE = "colorful"
+
+# this command gets java home on a mac but includes a newline that has to be stripped
+$JAVA_HOME = $(/usr/libexec/java_home -v 1.8).strip()
+# this was to get Jetbrains IDE to work under dwm window manager
+#$_JAVA_AWT_WM_NONREPARENTING = "1"
+$MAVEN_OPTS = "-Xmx2g -XX:ReservedCodeCacheSize=512m"
+
+# this should make sure things like the python thinc package link against the best BLAS
+#  it also breaks conda search ___
+#$DYLD_LIBRARY_PATH = "~/anaconda3/lib"
+
+# Xonsh-specific packages to load, probably good to trim some of these for speed
+xontrib load coreutils vox bashisms
+
+# put in some useful shortcuts
+aliases['ll'] = 'ls -lahtro'
+aliases['importall'] = 'import numpy as np, matplotlib.pyplot as plt, seaborn as sns, pandas as pd'
+
+# xonsh seems to clobber ncurses apps, note them here, e.g. cryptop:
+# https://github.com/xonsh/xonsh/issues/2517
+__xonsh__.commands_cache.threadable_predictors['cryptop'] = lambda args: False
